@@ -1,5 +1,5 @@
-# An Empirical Study on GANs with Cosine Margin Loss and Relativistic Discriminator
-This is a Pytorch implementation for the paper "An Empirical Study on GANs with Cosine Margin Loss and Relativistic Discriminator".
+# An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator
+This is a Pytorch implementation for the paper "An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator".
 
 ## Requirement
 * python                    3.7.3
