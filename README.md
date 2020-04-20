@@ -73,7 +73,7 @@ This is a Pytorch implementation for the paper "An Empirical Study on GANs with 
 ![](/figures/images_cat_64x64.png)
 
 ## Citation
-Please cite our paper if PyramidNets is used:
+Please cite our paper if RMCosGAN is used:
 ```
 @article{RMCosGAN,
   title={An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator},
