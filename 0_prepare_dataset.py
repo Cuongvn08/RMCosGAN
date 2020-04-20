@@ -18,13 +18,13 @@ def prepare_cifar10():
     print('[CIFAR10] Preparing dataset ...')
 
     # setting
-    dir_image_output = '/data/cuong/data/gan_paper/dataset/cifar10/'
+    dir_image_output = './dataset/cifar10/'
 
     # clean and create dir if any
     create_dir(dir_image_output)
 
     # save images from pytorch dataset
-    dset_train = dset.CIFAR10('/data/cuong/data/gan_paper/dataset/others', train=True, download=True)
+    dset_train = dset.CIFAR10('./dataset/others', train=True, download=True)
     print('[CIFAR10] The number of images: ', len(dset_train))
 
     cnt = 1
@@ -42,7 +42,7 @@ def prepare_mnist():
     print('[MNIST] Preparing dataset ...')
 
     # setting
-    dir_image_output = '/data/cuong/data/gan_paper/dataset/mnist/'
+    dir_image_output = './dataset/mnist/'
 
     # clean and create dir if any
     create_dir(dir_image_output + 'all')
@@ -62,22 +62,6 @@ def prepare_mnist():
         img.save(dir_image_output + 'all/img_{}.jpg'.format(i))
         img.save(dir_image_output + 'classes/{}/img_{}.jpg'.format(label, i))
 
-
-    '''
-    # save images from pytorch dataset
-    trans = transf.Compose([
-        transf.Resize((32, 32)),
-    ])
-    dset_train = dset.MNIST('/data/cuong/data/gan_paper/dataset/others', train=True, download=True, transform=trans)
-    print('[MNIST] The number of images: ', len(dset_train))
-
-    cnt = 1
-    for img,label in dset_train:
-        img = img.convert('RGB')
-        img.save(dir_image_output + 'img_{}.jpg'.format(cnt))
-        cnt += 1
-    '''
-
     print('[MNIST] Preparing dataset was completed.')
 
     pass
@@ -87,7 +71,7 @@ def prepare_stl10():
     print('[STL10] Preparing dataset ...')
 
     # setting
-    dir_image_output = '/data/cuong/data/gan_paper/dataset/stl10/'
+    dir_image_output = './dataset/stl10/'
 
     # clean and create dir if any
     create_dir(dir_image_output)
@@ -96,7 +80,7 @@ def prepare_stl10():
     trans = transf.Compose([
         transf.Resize((48, 48)),
     ])
-    dset_train = dset.STL10('/data/cuong/data/gan_paper/dataset/others', split='train', download=True, transform=trans)
+    dset_train = dset.STL10('./dataset/others', split='train', download=True, transform=trans)
     print('[STL10] The number of images: ', len(dset_train))
 
     cnt = 1

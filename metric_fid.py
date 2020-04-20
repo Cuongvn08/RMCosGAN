@@ -266,25 +266,3 @@ def calculate_fid_given_imgs(imgs):
         m2, s2 = _handle_img(imgs[1], sess)
         fid_value = calculate_frechet_distance(m1, s1, m2, s2)
         return fid_value
-
-
-if __name__ == "__main__":
-    create_inception_graph(str('/data/cuong/data/gan_paper/dataset/'))
-
-    # pass imgs
-    if 0:
-        start_time = time.time()
-
-        def get_images(filename):
-            return scipy.misc.imread(filename)
-
-        filenames = glob.glob(os.path.join('/data/cuong/data/gan_paper/dataset/cifar10', '*.*'))
-        images = [get_images(filename) for filename in filenames]
-        fid = calculate_fid_given_imgs([images, images])
-        print('[imgs] time={}; fid={}'.format(time.time()-start_time, fid))
-
-    if 1:
-        start_time = time.time()
-        fid = calculate_fid_given_paths(['/data/cuong/data/gan/datasets/mnist/mnist_rgb_32x32_all',
-                                         '/data/cuong/data/gan/output/mnist_rgb_32x32__/train_9_cos_s_5/image/20000/None'])
-        print('[paths] time={}; fid={}'.format(time.time()-start_time, fid))

@@ -113,11 +113,3 @@ def get_inception_score_given_paths(path):
     del images
 
     return inception_score
-
-if __name__=='__main__':
-    if softmax is None:
-      _init_inception()
-
-    start_time = time.time()
-    inception_score = get_inception_score_given_paths('/data/cuong/data/gan_paper/dataset/cifar10')
-    print('time={}; inception_score={}'.format(time.time()-start_time, inception_score))

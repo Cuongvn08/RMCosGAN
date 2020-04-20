@@ -45,9 +45,9 @@ parser.register('type', 'bool', strToBool)
 
 
 parser.add_argument('--dataset', default='cifar10', help='cifar10, mnist, stl10, cat')
-parser.add_argument('--method', default='s', help='s, rs, ras, ls, rals, hinge, rahinge, margin')
-parser.add_argument('--dir_dataset', default='/data/cuong/data/gan_paper/dataset/')
-parser.add_argument('--dir_output', default='/data/cuong/data/gan_paper/output/ablation/margin/')
+parser.add_argument('--method', default='s', help='s, rs, ras, ls, rals, hinge, rahinge, rmcos')
+parser.add_argument('--dir_dataset', default='./dataset/')
+parser.add_argument('--dir_output', default='./output/')
 parser.add_argument('--n_iter', type=int, default=200000, help='Number of iteration cycles')
 parser.add_argument('--save_every', type=int, default=10000, help='Generate images after x iterations')
 parser.add_argument('--valid_images', type=int, default=10000, help='Number of images needed to be generated')
@@ -108,7 +108,7 @@ elif param.dataset in ['mnist']:
     param.dir_input        = os.path.join(param.dir_dataset, 'mnist/classes')
     param.dir_inception    = os.path.join(param.dir_dataset, 'others')
 
-if param.method == 'margin':
+if param.method == 'rmcos':
     param.dir_output_model = os.path.join(param.dir_output, param.dataset, param.method + '_m' + str(param.m) + '_s' + str(param.s), 'model')
     param.dir_output_image = os.path.join(param.dir_output, param.dataset, param.method + '_m' + str(param.m) + '_s' + str(param.s), 'image')
 else:
@@ -266,21 +266,10 @@ if param.arch == 0: # for cat
                 mult *= 2
                 i += 1
 
-            ### End block
-            # Size = (D_h_size * mult) x 4 x 4
-            #if param.method not in ['margin']:
-            #    if param.spectral:
-            #        main.add_module('End-SpectralConv2d', torch.nn.utils.spectral_norm(torch.nn.Conv2d(param.D_h_size * mult, 1, kernel_size=4, stride=1, padding=0, bias=False)))
-            #    else:
-            #        main.add_module('End-Conv2d', torch.nn.Conv2d(param.D_h_size * mult, 1, kernel_size=4, stride=1, padding=0, bias=False))
-            #f param.method == 's':
-            #    main.add_module('End-Sigmoid', torch.nn.Sigmoid())
-            # Size = 1 x 1 x 1 (Is a real cat or not?)
-
             self.main = main
             self.sig = torch.nn.Sigmoid()
 
-            if param.method == 'margin':
+            if param.method == 'rmcos':
                 #self.fc = torch.nn.Linear(1024 * 4 * 4, 1024)
                 self.weight = torch.nn.Parameter(torch.FloatTensor(1, 1024))
                 torch.nn.init.xavier_uniform_(self.weight)
@@ -291,7 +280,7 @@ if param.arch == 0: # for cat
             if isinstance(input.data, torch.cuda.FloatTensor) and param.n_gpu > 1:
                 output = torch.nn.parallel.data_parallel(self.main, input, range(param.n_gpu))
             else:
-                if param.method == 'margin': #margin
+                if param.method == 'rmcos':
                     output = self.main(input)
                     output = torch.sum(output, dim=(2,3))
                     output = F.linear(F.normalize(output), F.normalize(self.weight)).view(-1)
@@ -445,7 +434,7 @@ if param.arch == 1:# for cifar10, mnist, stl
 
             self.sig = torch.nn.Sigmoid()
 
-            if param.method == 'margin': #margin
+            if param.method == 'rmcos':
                 #self.dense = torch.nn.Linear(512 * h * w, 512)
                 #self.weight = torch.nn.Parameter(torch.FloatTensor(1, 512 * h * w))
                 self.weight = torch.nn.Parameter(torch.FloatTensor(1, 512))
@@ -459,7 +448,7 @@ if param.arch == 1:# for cifar10, mnist, stl
                 output = torch.nn.parallel.data_parallel(self.dense(self.model(input).view(-1, 512 * self.h * self.w)).view(-1),
                                                          input, range(param.n_gpu))
             else:
-                if param.method == 'margin': #margin
+                if param.method == 'rmcos':
                     output = self.model(input)
                     output = torch.sum(output, dim=(2,3))
                     output = F.linear(F.normalize(output), F.normalize(self.weight)).view(-1)
@@ -569,7 +558,7 @@ if __name__ == '__main__':
     printBoth(param.log, 'dir_output_model = {}'.format(param.dir_output_model))
     printBoth(param.log, 'dir_output_image = {}'.format(param.dir_output_image))
 
-    if param.method == 'margin':
+    if param.method == 'rmcos':
         printBoth(param.log, 'm = {}'.format(param.m))
         printBoth(param.log, 's = {}'.format(param.s))
 
@@ -763,7 +752,7 @@ if __name__ == '__main__':
                     errD = (torch.mean((y_pred - torch.mean(y_pred_fake) - y) ** 2) + torch.mean((y_pred_fake - torch.mean(y_pred) + y) ** 2)) / 2
                 if param.method == 'rahinge':
                     errD = (torch.mean(torch.nn.ReLU()(1.0 - (y_pred - torch.mean(y_pred_fake)))) +torch.mean(torch.nn.ReLU()(1.0 + (y_pred_fake - torch.mean(y_pred))))) / 2
-                if param.method == 'margin':
+                if param.method == 'rmcos':
                     errD = calc_advloss_D(y_pred, y_pred_fake, y, s=param.s, m = param.m)
 
                 errD_real = errD
@@ -827,7 +816,7 @@ if __name__ == '__main__':
                 y_pred = D(x)
                 # Non-saturating
                 errG = (torch.mean(torch.nn.ReLU()(1.0 + (y_pred - torch.mean(y_pred_fake)))) +torch.mean(torch.nn.ReLU()(1.0 - (y_pred_fake - torch.mean(y_pred))))) / 2
-            if param.method == 'margin':
+            if param.method == 'rmcos':
                 y_pred = D(x)
                 errG = calc_advloss_G(y_pred, y_pred_fake, y, s=param.s, m=param.m)
                 # errG += param.gamma * BCE_stable(y_pred_fake, y2)
