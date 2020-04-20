@@ -29,3 +29,25 @@ This is a Pytorch implementation for the paper "An Empirical Study on GANs with 
 
 **60 randomly-generated images with Cos-Margin at FID=9.48 trained on CAT dataset**
 ![](/figures/images_cat_64x64.png)
+
+## Citation
+Please cite our paper if PyramidNets is used: 
+```
+@article{RMCosGAN,
+  title={An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator},
+  author={Cuong Nguyen, Tien-Dung Cao, Tram Truong-Huu, Binh T.Nguyen},
+  journal={},
+  year={}
+}
+```
+If this implementation is useful, please cite or acknowledge this repository on your work.
+
+## Contact
+Cuong Nguyen (cuong.vn08@gmail.com),
+
+Tien-Dung Cao (dung.cao@ttu.edu.vn),
+
+Tram Truong-Huu (tram.truong-huu@ieee.com),
+
+Binh T.Nguyen (ngtbinh@hcmus.edu.vn)
+
