@@ -24,13 +24,13 @@ This is a Pytorch implementation for the paper "An Empirical Study on GANs with 
 
 | Operation | Filter Units | Non Linearity | Normalization |
 | --- | --- | --- | --- |
-| Generator G(z) | | | | 
+| *Generator G(z)* |
 | Linear | 512 | None | None |
 | Trans.Conv2D | 256 | ReLU | Batch |
 | Trans.Conv2D | 128 | ReLU | Batch |
 | Trans.Conv2D | 64 | ReLU | Batch |
 | Trans.Conv2D | 3 | Tanh | None |
-| Discriminator D(x) | | | | 
+| *Discriminator D(x)* |
 | Conv2D | 64 | Leaky-ReLU | Spectral |
 | Conv2D | 64 | Leaky-ReLU | Spectral |
 | Conv2D | 128 | Leaky-ReLU | Spectral |
@@ -44,13 +44,13 @@ This is a Pytorch implementation for the paper "An Empirical Study on GANs with 
 
 | Operation | Filter Units | Non Linearity | Normalization |
 | --- | --- | --- | --- |
-| Generator G(z) | | | | 
+| *Generator G(z)* |
 | Trans.Conv2D | 1024 | ReLU | Batch | 
 | Trans.Conv2D | 512 | ReLU | Batch | 
 | Trans.Conv2D | 256 | ReLU | Batch | 
 | Trans.Conv2D | 128 | ReLU | Batch | 
 | Trans.Conv2D | 3 | Tanh | None | 
-| Discriminator D(x) | | | | 
+| *Discriminator D(x)* |
 | Conv2D | 128 | Leaky-ReLU | Spectral | 
 | Conv2D | 256 | Leaky-ReLU | Spectral | 
 | Conv2D | 512 | Leaky-ReLU | Spectral | 
