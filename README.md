@@ -1,5 +1,6 @@
 # An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator
 This is a Pytorch implementation for the paper "An Empirical Study on GANs with Margin Cosine Loss and Relativistic Discriminator".
+https://arxiv.org/abs/2110.11293
 
 ## Requirement
 * python                    3.7.3
@@ -85,7 +86,7 @@ Please cite our paper if RMCosGAN is used:
 If this implementation is useful, please cite or acknowledge this repository on your work.
 
 ## Contact
-Cuong Nguyen (cuong.vn08@gmail.com),
+Cuong Nguyen (team@entropyart.io),
 
 Tien-Dung Cao (dung.cao@ttu.edu.vn),
 
